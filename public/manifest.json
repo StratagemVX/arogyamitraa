@@ -1,0 +1,21 @@
+{
+  "name": "ಆರೋಗ್ಯ ಸಹಾಯಕ - Health Assistant",
+  "short_name": "HealthAssist",
+  "description": "Voice-based health assistant for rural India",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1419",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"],
+  "lang": "kn",
+  "dir": "ltr"
+}

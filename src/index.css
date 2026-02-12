@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core Medical Theme - Calming Blues */
+    --background: 210 40% 98%;
+    --foreground: 210 40% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 40% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 40% 11%;
+
+    /* Primary - Medical Teal */
+    --primary: 187 71% 44%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 187 71% 54%;
+
+    /* Secondary - Soft Lavender */
+    --secondary: 240 20% 96%;
+    --secondary-foreground: 210 40% 11%;
+
+    /* Muted - Gentle Gray */
+    --muted: 210 30% 95%;
+    --muted-foreground: 210 15% 45%;
+
+    /* Accent - Sky Blue */
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Status Colors - Medical Semantic */
+    --safe: 152 69% 45%;
+    --safe-foreground: 0 0% 100%;
+    --safe-glow: 152 69% 55%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --warning-glow: 38 92% 60%;
+
+    --emergency: 0 84% 60%;
+    --emergency-foreground: 0 0% 100%;
+    --emergency-glow: 0 84% 70%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Glass Effect Colors */
+    --glass: 0 0% 100%;
+    --glass-border: 210 30% 90%;
+
+    /* Orb Colors */
+    --orb-idle: 199 89% 48%;
+    --orb-listening: 152 69% 45%;
+    --orb-processing: 38 92% 50%;
+    --orb-emergency: 0 84% 60%;
+
+    --border: 210 30% 90%;
+    --input: 210 30% 90%;
+    --ring: 187 71% 44%;
+
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-calm: linear-gradient(135deg, hsl(199 89% 48%), hsl(187 71% 44%));
+    --gradient-safe: linear-gradient(135deg, hsl(152 69% 45%), hsl(165 60% 40%));
+    --gradient-warning: linear-gradient(135deg, hsl(38 92% 50%), hsl(25 95% 53%));
+    --gradient-emergency: linear-gradient(135deg, hsl(0 84% 60%), hsl(350 80% 50%));
+    --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 24px -4px rgba(0, 0, 0, 0.08);
+    --shadow-glow-primary: 0 8px 40px -8px hsl(187 71% 44% / 0.4);
+    --shadow-glow-safe: 0 8px 40px -8px hsl(152 69% 45% / 0.5);
+    --shadow-glow-warning: 0 8px 40px -8px hsl(38 92% 50% / 0.5);
+    --shadow-glow-emergency: 0 8px 40px -8px hsl(0 84% 60% / 0.6);
+    --shadow-orb: 0 20px 60px -15px hsl(199 89% 48% / 0.5);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 25% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 25% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 25% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 187 71% 50%;
+    --primary-foreground: 220 25% 8%;
+    --primary-glow: 187 71% 60%;
+
+    --secondary: 220 20% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 20% 18%;
+    --muted-foreground: 210 15% 60%;
+
+    --accent: 199 89% 55%;
+    --accent-foreground: 220 25% 8%;
+
+    --safe: 152 69% 50%;
+    --safe-glow: 152 69% 60%;
+
+    --warning: 38 92% 55%;
+    --warning-glow: 38 92% 65%;
+
+    --emergency: 0 84% 65%;
+    --emergency-glow: 0 84% 75%;
+
+    --glass: 220 25% 15%;
+    --glass-border: 220 20% 25%;
+
+    --orb-idle: 199 89% 55%;
+    --orb-listening: 152 69% 50%;
+    --orb-processing: 38 92% 55%;
+    --orb-emergency: 0 84% 65%;
+
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 187 71% 50%;
+
+    --gradient-calm: linear-gradient(135deg, hsl(199 89% 55%), hsl(187 71% 50%));
+    --gradient-safe: linear-gradient(135deg, hsl(152 69% 50%), hsl(165 60% 45%));
+    --gradient-warning: linear-gradient(135deg, hsl(38 92% 55%), hsl(25 95% 58%));
+    --gradient-emergency: linear-gradient(135deg, hsl(0 84% 65%), hsl(350 80% 55%));
+    --gradient-glass: linear-gradient(135deg, rgba(30,35,50,0.9), rgba(30,35,50,0.7));
+
+    --shadow-soft: 0 4px 24px -4px rgba(0, 0, 0, 0.3);
+    --shadow-glow-primary: 0 8px 40px -8px hsl(187 71% 50% / 0.5);
+    --shadow-glow-safe: 0 8px 40px -8px hsl(152 69% 50% / 0.6);
+    --shadow-glow-warning: 0 8px 40px -8px hsl(38 92% 55% / 0.6);
+    --shadow-glow-emergency: 0 8px 40px -8px hsl(0 84% 65% / 0.7);
+    --shadow-orb: 0 20px 60px -15px hsl(199 89% 55% / 0.6);
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but keep scroll functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Glass Morphism */
+  .glass {
+    @apply backdrop-blur-xl border;
+    background: var(--gradient-glass);
+    border-color: hsl(var(--glass-border));
+  }
+
+  .glass-strong {
+    @apply backdrop-blur-2xl border;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+    border-color: hsl(var(--glass-border));
+  }
+
+  /* Status Backgrounds */
+  .bg-safe {
+    background: hsl(var(--safe));
+  }
+
+  .bg-warning {
+    background: hsl(var(--warning));
+  }
+
+  .bg-emergency {
+    background: hsl(var(--emergency));
+  }
+
+  /* Glow Effects */
+  .glow-primary {
+    box-shadow: var(--shadow-glow-primary);
+  }
+
+  .glow-safe {
+    box-shadow: var(--shadow-glow-safe);
+  }
+
+  .glow-warning {
+    box-shadow: var(--shadow-glow-warning);
+  }
+
+  .glow-emergency {
+    box-shadow: var(--shadow-glow-emergency);
+  }
+
+  .glow-orb {
+    box-shadow: var(--shadow-orb);
+  }
+
+  /* Animations */
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.02); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px 5px hsl(var(--primary) / 0.3),
+                  0 0 40px 10px hsl(var(--primary) / 0.2);
+    }
+    50% { 
+      box-shadow: 0 0 30px 10px hsl(var(--primary) / 0.4),
+                  0 0 60px 20px hsl(var(--primary) / 0.3);
+    }
+  }
+
+  @keyframes pulse-emergency {
+    0%, 100% { 
+      box-shadow: 0 0 30px 10px hsl(var(--emergency) / 0.5),
+                  0 0 60px 20px hsl(var(--emergency) / 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 50px 20px hsl(var(--emergency) / 0.6),
+                  0 0 100px 40px hsl(var(--emergency) / 0.4);
+    }
+  }
+
+  @keyframes wave {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.5); opacity: 0; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-pulse-emergency {
+    animation: pulse-emergency 1s ease-in-out infinite;
+  }
+
+  .animate-wave {
+    animation: wave 2s ease-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-breathe {
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  /* Gradient Text */
+  .text-gradient-calm {
+    background: var(--gradient-calm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Safe Area */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+}
