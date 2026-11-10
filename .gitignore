@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Environment & Private Keys (Security Sanitized)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,6 +30,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Local Netlify folder
-.netlify
