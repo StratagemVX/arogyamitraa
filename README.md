@@ -1,67 +1,85 @@
 # Arogya Mitra (ಆರೋಗ್ಯ ಸಹಾಯಕ) — Multilingual Healthcare AI Assistant
 
-> Voice-first and text multilingual healthcare triage, symptom guidance, and wellness advisory platform built with React 18, Vite, Supabase, and Web Speech AI.
+> An accessible voice-first and text multilingual healthcare triage, preliminary symptom evaluation, and wellness advisory platform built with React 18, Vite, Supabase, and Web Speech AI.
+
+[![React](https://img.shields.io/badge/React-18-61DAFB.svg)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E.svg)](https://supabase.com/)
+[![Web Speech API](https://img.shields.io/badge/Web%20Speech-API-orange.svg)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
 
 ---
 
-## 1. Project Title
-**Arogya Mitra (ಆರೋಗ್ಯ ಸಹಾಯಕ)** — Multilingual Voice & Text Healthcare Intelligence Assistant.
+## Executive Overview
 
-## 2. Project Overview
-Arogya Mitra is an assistive healthcare web platform designed to bridge language and literacy barriers in public healthcare. By enabling voice-enabled conversational interfaces in regional Indian languages (Kannada, Hindi) alongside English, it delivers accessible preliminary symptom assessments, basic first-aid protocols, and emergency guidance.
+Arogya Mitra (ಆರೋಗ್ಯ ಸಹಾಯಕ) is an assistive healthtech web application engineered to dismantle language and digital literacy barriers in public healthcare. Recognizing that rural and underserved demographics often struggle with text-heavy medical portals, Arogya Mitra enables natural voice-guided conversational assessments in regional Indian languages (Kannada, Hindi) alongside English. The platform provides preliminary non-diagnostic symptom categorization, emergency first-aid protocols, and nearest clinic directions.
 
-## 3. Problem Statement
-Millions of non-English speaking citizens face friction accessing digital healthcare triage. Complex terminology and text-heavy portals alienate rural populations. Arogya Mitra solves this with regional language voice synthesis, audio transcription, and clear, non-diagnostic triage guidance.
+---
 
-## 4. Objectives
-- **Implemented:**
-  - Real-time bilingual / trilingual speech recognition and text-to-speech feedback.
-  - Symptom analysis and categorized health recommendation cards.
-  - Emergency SOS shortcuts and nearby clinic discovery helpers.
-  - Supabase integration for encrypted user health profile caching.
-- **Future Goals:**
-  - Direct integration with verified Ayushman Bharat Digital Mission (ABDM) APIs.
-  - Offline-first ServiceWorker caching for remote clinic operations.
+## Problem Statement & Public Health Context
 
-## 5. Technology Stack
-- **Frontend:** React 18, Vite, TypeScript, Tailwind CSS, Lucide React, shadcn/ui
-- **Voice / Speech:** Web Speech API (SpeechRecognition & SpeechSynthesis)
-- **Backend & Auth:** Supabase (Auth, PostgreSQL database, Edge Functions)
-- **Deployment:** Netlify (`netlify.toml`)
+In multilingual societies, healthcare information systems often alienate non-English literate populations. When individuals experience symptoms, delay or panic occurs due to:
+1. **Linguistic Exclusion:** Medical information primarily indexed in technical English.
+2. **Text Literacy Friction:** Text-heavy triage forms that discourage elderly or rural patients.
+3. **Emergency Panic:** Lack of immediate structured guidance for urgent symptoms (e.g. chest pain, dehydration, snakebite).
 
-## 6. System Architecture
+Arogya Mitra bridges this gap with browser-native speech recognition (`SpeechRecognition`) and text-to-speech synthesis (`SpeechSynthesis`), translating spoken regional queries into structured health guidance.
+
+---
+
+## Core Capabilities & Features
+
+### Implemented Features
+- **Trilingual Speech Interaction:** Bi-directional conversational voice recognition supporting Kannada, Hindi, and English.
+- **Voice Symptom Triage:** Natural voice input analysis mapping symptoms to clinical guidance categories.
+- **Categorized Wellness Guidelines:** Structured advice for lifestyle conditions, seasonal ailments, and home remedies.
+- **Emergency SOS Shortcut:** High-visibility emergency actions triggering immediate medical helpline prompts.
+- **Encrypted Profile Synchronization:** Supabase PostgreSQL backend integration with row-level security.
+- **Verified Audio Implementation:** Complete voice documentation guide (`VOICE_ASSISTANT_IMPLEMENTATION.md`) and testing manual (`TESTING_GUIDE.md`).
+
+---
+
+## System Architecture
+
 ```mermaid
 flowchart TD
-    Patient([Patient / User]):::user -->|Voice Speech Input| VRec[Web Speech Recognition]
-    Patient -->|Text Symptom Query| Input[React UI State]
-    VRec --> Input
-    Input --> TriageEngine[Local Triage & Rule Analyzer]
-    TriageEngine -->|Query Guidelines| Supa[(Supabase Health DB)]
-    TriageEngine --> ResponseGen[Structured Response Generator]
-    ResponseGen --> SpeechSynth[Web Speech Audio Response]
-    ResponseGen --> Cards[Visual Health Guidance Cards]
-    SpeechSynth --> Patient
-    Cards --> Patient
+    Patient([Patient / User]):::user -->|Voice Speech Input| VRec[Web Speech Recognition API]
+    Patient -->|Text Symptom Query| Input[React UI State & Language Context]
+    VRec -->|Transcription| Input
+    Input --> Triage[Symptom Classification Engine]
+    Triage --> DB[(Supabase Healthcare Rules DB)]
+    DB --> OutputGen[Structured Response Generator]
+    OutputGen --> AudioSynth[Web Speech Text-to-Speech]
+    OutputGen --> VisualCards[Guidance & First-Aid Cards]
+    AudioSynth --> Patient
+    VisualCards --> Patient
 
     classDef user fill:#059669,stroke:#047857,color:#fff;
 ```
 
-## 7. Folder Structure
-```
+---
+
+## Directory Structure
+
+```text
 arogyamitraa/
 ├── src/
-│   ├── components/          # Voice assistant, symptom checker, emergency UI
-│   ├── hooks/               # Voice recognition and audio synthesis hooks
-│   ├── integrations/        # Supabase client and generated database types
-│   ├── pages/               # Dashboard, Triage, Clinic Directory views
-│   └── App.tsx              # Core router and language context
-├── netlify.toml             # Netlify deployment configuration
+│   ├── assets/              # Healthcare background imagery (health-bg.jpg)
+│   ├── components/          # VoiceAssistant, SymptomChecker, EmergencyBanner
+│   ├── hooks/               # useVoiceRecognition, useSpeechSynthesis hooks
+│   ├── integrations/        # Supabase client initialization and generated types
+│   ├── pages/               # TriageDashboard, ClinicDirectory, ProfileView
+│   └── App.tsx              # Router and language context provider
+├── netlify.toml             # Netlify deployment and header routing
 ├── .env.example             # Clean environment variable specification
 ├── TESTING_GUIDE.md         # Manual and automated verification checklist
-└── README.md                # Enterprise project documentation
+├── VOICE_ASSISTANT_IMPLEMENTATION.md # Audio pipeline engineering documentation
+└── README.md                # Master repository technical documentation
 ```
 
-## 8. Installation & Setup
+---
+
+## Setup & Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/StratagemVX/arogyamitraa.git
@@ -70,26 +88,37 @@ cd arogyamitraa
 # Install dependencies
 npm install
 
-# Configure environment variables
+# Configure environment
 cp .env.example .env
 
-# Run local development server
+# Start development server
 npm run dev
 ```
 
-## 9. Environment Variables (`.env.example`)
+---
+
+## Environment Configuration (`.env.example`)
+
 ```env
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 VITE_FIREBASE_API_KEY=your-firebase-key
 ```
 
-## 10. Security & Privacy Considerations
-- **No Health Data Leakage:** Voice streams are processed in-browser; raw audio recordings are never stored on external third-party servers.
-- **Credential Hygiene:** Local certificates (`*.pem`, `*.key`) and `.env` credentials are restricted via `.gitignore`.
-- **Medical Disclaimer:** Explicit notices clarify that Arogya Mitra provides triage assistance, not certified physician diagnoses.
+---
 
-## 11. Author & Project Information
-- **Lead Developer:** Chethan Kumar B S (`StratagemVX`)
-- **Institution:** MVJ College of Engineering
-- **Focus:** HealthTech, Multilingual Voice AI, Accessible Healthcare
+## Security & Privacy Considerations
+
+- **Private Voice Processing:** Audio recognition executes directly within the browser sandbox; no raw voice recordings are transmitted or stored on external servers.
+- **Medical Disclaimer Notice:** Prominent notices clarify that Arogya Mitra provides supportive triage information and does not substitute certified clinical diagnoses.
+- **Sanitized Repository Hygiene:** Local testing keys and `.env` credentials are excluded via hardened `.gitignore`.
+
+---
+
+## Contributor Attribution & Profile
+
+- **Lead Engineer:** Chethan Kumar B S (`StratagemVX`)
+- **Institution:** Department of Computer Science & Engineering, MVJ College of Engineering
+- **GitHub:** [https://github.com/StratagemVX](https://github.com/StratagemVX)
+- **Portfolio:** [https://chethan-kumar-portfolio.vercel.app/](https://chethan-kumar-portfolio.vercel.app/)
+- **LinkedIn:** [https://linkedin.com/in/chethan-kumar-b-s-781a002bb](https://linkedin.com/in/chethan-kumar-b-s-781a002bb)
