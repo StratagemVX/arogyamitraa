@@ -1,0 +1,43 @@
+name: Frontend quality checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - security/remove-tracked-env
+
+permissions:
+  contents: read
+
+jobs:
+  frontend-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # Non-production placeholders for build and test runs only.
+      VITE_SUPABASE_URL: https://example-test-project.supabase.co
+      VITE_SUPABASE_PUBLISHABLE_KEY: test-publishable-key-not-valid-for-deployment
+      VITE_FIREBASE_API_KEY: test-firebase-client-key
+      VITE_FIREBASE_PROJECT_ID: example-test-project
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Build production bundle
+        run: npm run build
