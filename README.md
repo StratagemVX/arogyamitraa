@@ -33,7 +33,7 @@ Arogya Mitra bridges this gap with browser-native speech recognition (`SpeechRec
 - **Voice Symptom Triage:** Natural voice input analysis mapping symptoms to clinical guidance categories.
 - **Categorized Wellness Guidelines:** Structured advice for lifestyle conditions, seasonal ailments, and home remedies.
 - **Emergency SOS Shortcut:** High-visibility emergency actions triggering immediate medical helpline prompts.
-- **Encrypted Profile Synchronization:** Supabase PostgreSQL backend integration with row-level security.
+- **Profile / Data Integration:** Supabase client integration for application data; verify the deployed database policies before handling real user records.
 - **Verified Audio Implementation:** Complete voice documentation guide (`VOICE_ASSISTANT_IMPLEMENTATION.md`) and testing manual (`TESTING_GUIDE.md`).
 
 ---
@@ -101,17 +101,17 @@ npm run dev
 
 ```env
 VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
 VITE_FIREBASE_API_KEY=your-firebase-key
 ```
 
 ---
 
-## Security & Privacy Considerations
+## Safety, Privacy & Deployment Notes
 
-- **Private Voice Processing:** Audio recognition executes directly within the browser sandbox; no raw voice recordings are transmitted or stored on external servers.
-- **Medical Disclaimer Notice:** Prominent notices clarify that Arogya Mitra provides supportive triage information and does not substitute certified clinical diagnoses.
-- **Sanitized Repository Hygiene:** Local testing keys and `.env` credentials are excluded via hardened `.gitignore`.
+- Treat symptom guidance as informational only; it is not a substitute for a qualified clinician or emergency services.
+- Review Supabase Row Level Security policies, Firebase rules, and data retention before using real patient information.
+- The browser-facing Supabase key is a publishable key, not a service-role credential. Never place privileged keys in `VITE_*` variables or commit `.env` files.
 
 ---
 
