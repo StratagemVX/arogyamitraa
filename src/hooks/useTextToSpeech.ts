@@ -186,8 +186,8 @@ export function useTextToSpeech() {
       };
 
       utterance.onerror = (e) => {
-        if ((e as any).error === 'interrupted') return;
-        console.error('TTS: SpeechSynthesis error →', (e as any).error ?? e);
+        if (e.error === 'interrupted') return;
+        console.error('TTS: SpeechSynthesis error →', e.error ?? e);
         clearKeepAlive();
         setIsSpeaking(false);
         // If SpeechSynthesis fails, try Google TTS as last resort

@@ -61,18 +61,18 @@ export function HospitalMap({ isOpen, onClose, language }: HospitalMapProps) {
   const openGoogleMaps = useCallback(() => {
     if (location) {
       const url = `https://www.google.com/maps/search/hospital+near+me/@${location.lat},${location.lng},14z`;
-      window.open(url, '_blank');
+      window.open(url, '_blank', 'noopener,noreferrer');
     } else {
-      window.open('https://www.google.com/maps/search/hospital+near+me', '_blank');
+      window.open('https://www.google.com/maps/search/hospital+near+me', '_blank', 'noopener,noreferrer');
     }
   }, [location]);
 
   const openDirections = useCallback(() => {
     if (location) {
       const url = `https://www.google.com/maps/dir/?api=1&origin=${location.lat},${location.lng}&destination=hospital+near+me&travelmode=driving`;
-      window.open(url, '_blank');
+      window.open(url, '_blank', 'noopener,noreferrer');
     } else {
-      window.open('https://www.google.com/maps/search/hospital+near+me', '_blank');
+      window.open('https://www.google.com/maps/search/hospital+near+me', '_blank', 'noopener,noreferrer');
     }
   }, [location]);
 
