@@ -1,146 +1,85 @@
-# Arogya Mitra (ಆರೋಗ್ಯ ಸಹಾಯಕ) — Multilingual Healthcare AI Assistant
+# Arogya Mitra (ಆರೋಗ್ಯ ಸಹಾಯಕ) — Multilingual Voice-First Healthcare Triage Assistant
 
-> An accessible voice-first and text multilingual healthcare triage, preliminary symptom evaluation, and wellness advisory platform built with React 18, Vite, Supabase, and Web Speech AI.
+> Assistive voice-guided and multilingual healthcare triage web app (Kannada, Hindi, and English) built with React 18, TypeScript, Vite, Tailwind CSS, Web Speech API, Firebase, and Supabase.
 
 [![React](https://img.shields.io/badge/React-18-61DAFB.svg)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg)](https://www.typescriptlang.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E.svg)](https://supabase.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Client-3ECF8E.svg)](https://supabase.com/)
 [![Web Speech API](https://img.shields.io/badge/Web%20Speech-API-orange.svg)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
 
 ---
 
 ## Executive Overview
 
-Arogya Mitra (ಆರೋಗ್ಯ ಸಹಾಯಕ) is an assistive healthtech web application engineered to dismantle language and digital literacy barriers in public healthcare. Recognizing that rural and underserved demographics often struggle with text-heavy medical portals, Arogya Mitra enables natural voice-guided conversational assessments in regional Indian languages (Kannada, Hindi) alongside English. The platform provides preliminary non-diagnostic symptom categorization, emergency first-aid protocols, and nearest clinic directions.
+**Arogya Mitra** (`arogyamitraa`) helps bridge language and literacy barriers for preliminary health triage and first-aid awareness. Built as an installable Progressive Web App (`public/manifest.json`, `public/sw.js`), it supports spoken symptom input and voice readback across Kannada, Hindi, and English, emergency shortcuts, first-aid guidance, and nearby hospital/clinic lookup.
+
+> **Security Remediation Status (`main` vs. Open Draft PR #1 — `security/remove-tracked-env`):**
+> - **PR #1** removes tracked `.env`, private TLS keys (`ca.key`, `localhost-key.pem`), and localhost/CA certificates (`ca.crt`, `localhost.pem`, `public/ca.crt`) from version control; replaces `.env.example` with placeholders only; upgrades vulnerable packages in `package-lock.json`; hardens `HospitalMap.tsx` and `useTextToSpeech.ts`; adds Vitest security/triage tests (`src/test/security-and-triage.test.tsx`); and adds `.github/workflows/quality.yml` (verified passing in CI with ESLint 0 errors, 4/4 Vitest tests, and Vite production build).
 
 ---
 
-## Problem Statement & Public Health Context
+## Core Capabilities & Actual Project Structure
 
-In multilingual societies, healthcare information systems often alienate non-English literate populations. When individuals experience symptoms, delay or panic occurs due to:
-1. **Linguistic Exclusion:** Medical information primarily indexed in technical English.
-2. **Text Literacy Friction:** Text-heavy triage forms that discourage elderly or rural patients.
-3. **Emergency Panic:** Lack of immediate structured guidance for urgent symptoms (e.g. chest pain, dehydration, snakebite).
-
-Arogya Mitra bridges this gap with browser-native speech recognition (`SpeechRecognition`) and text-to-speech synthesis (`SpeechSynthesis`), translating spoken regional queries into structured health guidance.
-
----
-
-## Core Capabilities & Features
-
-### Implemented Features
-- **Trilingual Speech Interaction:** Bi-directional conversational voice recognition supporting Kannada, Hindi, and English.
-- **Voice Symptom Triage:** Natural voice input analysis mapping symptoms to clinical guidance categories.
-- **Categorized Wellness Guidelines:** Structured advice for lifestyle conditions, seasonal ailments, and home remedies.
-- **Emergency SOS Shortcut:** High-visibility emergency actions triggering immediate medical helpline prompts.
-- **Profile / Data Integration:** Supabase client integration for application data; verify the deployed database policies before handling real user records.
-- **Verified Audio Implementation:** Complete voice documentation guide (`VOICE_ASSISTANT_IMPLEMENTATION.md`) and testing manual (`TESTING_GUIDE.md`).
-
----
-
-## System Architecture
-
-```mermaid
-flowchart TD
-    Patient([Patient / User]):::user -->|Voice Speech Input| VRec[Web Speech Recognition API]
-    Patient -->|Text Symptom Query| Input[React UI State & Language Context]
-    VRec -->|Transcription| Input
-    Input --> Triage[Symptom Classification Engine]
-    Triage --> DB[(Supabase Healthcare Rules DB)]
-    DB --> OutputGen[Structured Response Generator]
-    OutputGen --> AudioSynth[Web Speech Text-to-Speech]
-    OutputGen --> VisualCards[Guidance & First-Aid Cards]
-    AudioSynth --> Patient
-    VisualCards --> Patient
-
-    classDef user fill:#059669,stroke:#047857,color:#fff;
-```
-
----
-
-## Directory Structure
+### Implemented Modules
+- **Voice & Multilingual Triage (`useVoiceRecognition.ts`, `useTextToSpeech.ts`, `useMedicalAnalysis.ts`, `src/lib/translations.ts`):** Web Speech recognition and speech synthesis UI with `VoiceOrb`, `TranscriptDisplay`, `LanguageSelector`, `SymptomQuickPick`, `QuickActions`, and `StatusIndicator`.
+- **Safety, First-Aid & Offline Support (`Disclaimer.tsx`, `EmergencyButton.tsx`, `FirstAidGuide.tsx`, `HospitalMap.tsx`, `OfflineIndicator.tsx`, `useServiceWorker.ts`):** Medical disclaimer banner, emergency escalation controls, first-aid guide cards, hospital finder UI, and PWA offline support.
+- **Cloud Client Integrations (`src/integrations/firebase/client.ts`, `src/integrations/supabase/client.ts`):** Client SDK wiring configured via Vite `VITE_*` environment variables.
 
 ```text
 arogyamitraa/
+├── .github/workflows/quality.yml     # CI: npm ci --ignore-scripts, audit, lint, test, build (PR #1)
+├── public/                           # manifest.json, sw.js, favicon.svg, robots.txt
 ├── src/
-│   ├── assets/              # Healthcare background imagery (health-bg.jpg)
-│   ├── components/          # VoiceAssistant, SymptomChecker, EmergencyBanner
-│   ├── hooks/               # useVoiceRecognition, useSpeechSynthesis hooks
-│   ├── integrations/        # Supabase client initialization and generated types
-│   ├── pages/               # TriageDashboard, ClinicDirectory, ProfileView
-│   └── App.tsx              # Router and language context provider
-├── netlify.toml             # Netlify deployment and header routing
-├── .env.example             # Clean environment variable specification
-├── TESTING_GUIDE.md         # Manual and automated verification checklist
-├── VOICE_ASSISTANT_IMPLEMENTATION.md # Audio pipeline engineering documentation
-└── README.md                # Master repository technical documentation
+│   ├── components/                   # Disclaimer, EmergencyButton, FirstAidGuide, HospitalMap,
+│   │                                 # LanguageSelector, OfflineIndicator, QuickActions, StatusIndicator,
+│   │                                 # SymptomQuickPick, TranscriptDisplay, VoiceOrb, ui/
+│   ├── hooks/                        # useAudioLevel, useConversationHistory, useMedicalAnalysis,
+│   │                                 # useServiceWorker, useTextToSpeech, useVoiceRecognition
+│   ├── integrations/                 # firebase/client.ts, supabase/client.ts, supabase/types.ts
+│   ├── lib/translations.ts           # Multilingual copy & triage translations
+│   ├── pages/                        # Index.tsx, NotFound.tsx
+│   └── test/                         # setup.ts, example.test.ts, security-and-triage.test.tsx (PR #1)
+├── .env.example                      # Placeholder client environment template
+├── TESTING_GUIDE.md
+├── VOICE_ASSISTANT_IMPLEMENTATION.md
+└── package.json
 ```
 
 ---
 
-## Setup & Installation
+## Setup, Environment & Verification
 
+### Installation & Local Development
 ```bash
-# Clone the repository
 git clone https://github.com/StratagemVX/arogyamitraa.git
 cd arogyamitraa
 
-# Install dependencies
-npm install
-
-# Configure environment
+npm ci --ignore-scripts
 cp .env.example .env
-
-# Start development server
 npm run dev
 ```
 
----
+### Environment Configuration (`.env.example`)
+All browser configuration uses client-side `VITE_*` variables (`src/integrations/supabase/client.ts` & `src/integrations/firebase/client.ts`):
+- **Supabase:** `VITE_SUPABASE_PROJECT_ID`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`
+- **Firebase:** `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`, `VITE_FIREBASE_MEASUREMENT_ID`
 
-## Environment Configuration (`.env.example`)
+*Never commit real `.env` files, private keys (`*.key`, `*.pem`), or privileged service credentials.*
 
-```env
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
-VITE_FIREBASE_API_KEY=your-firebase-key
-```
-
----
-
-## Safety, Privacy & Deployment Notes
-
-- Treat symptom guidance as informational only; it is not a substitute for a qualified clinician or emergency services.
-- Review Supabase Row Level Security policies, Firebase rules, and data retention before using real patient information.
-- The browser-facing Supabase key is a publishable key, not a service-role credential. Never place privileged keys in `VITE_*` variables or commit `.env` files.
+### Available Package Scripts (`package.json`)
+| Script | Command | Notes |
+|---|---|---|
+| `npm run dev` | `vite` | Start local Vite dev server |
+| `npm run build` | `vite build` | Production SPA build |
+| `npm run lint` | `eslint .` | ESLint analysis |
+| `npm test` | `vitest run` | Run Vitest unit & triage/security suite |
+| `npm run preview` | `vite preview` | Preview built `dist/` bundle |
 
 ---
 
 ## Contributor Attribution & Profile
 
 - **Lead Engineer:** Chethan Kumar B S (`StratagemVX`)
-- **Institution:** Department of Computer Science & Engineering, MVJ College of Engineering
 - **GitHub:** [https://github.com/StratagemVX](https://github.com/StratagemVX)
 - **Portfolio:** [https://chethan-kumar-portfolio.vercel.app/](https://chethan-kumar-portfolio.vercel.app/)
 - **LinkedIn:** [https://linkedin.com/in/chethan-kumar-b-s-781a002bb](https://linkedin.com/in/chethan-kumar-b-s-781a002bb)
-
-## Verification and maintenance
-
-Use the source and dependency manifest as the authority for features and operational commands. This project handles user-facing data; verify authorization and privacy behavior when changing data flows.
-
-### Available package scripts
-
-- `npm run dev` — `vite`
-- `npm run build` — `vite build`
-- `npm run lint` — `eslint .`
-- `npm run test` — `vitest run`
-- `npm run preview` — `vite preview`
-
-Commands are listed from the package manifest and have not been executed by this documentation change.
-
-### Contribution and security notes
-
-- Keep features, architecture diagrams, screenshots, and technology details aligned with implementation.
-- Do not commit secrets, private keys, production data, or local environment files; use placeholder-only examples and deployment-managed secrets.
-- Validate authentication, authorization, input validation, and access policies when modifying user data.
-- Include reproduction steps and expected/actual behavior in issue reports.
-- Run relevant build, lint, and test checks before merging.
